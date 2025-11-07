@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open your invitation — Regular</title>
+  <meta name="description" content="Tap the button to open your invitation in the Regular app." />
+  <!-- Optional: show Smart App Banner once you have the App Store ID -->
+  <!-- <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID, app-argument=https://links.regular.sex/api/pairing/"> -->
+
+  <style>
+    :root {
+      --bg: #0b0b0c;
+      --panel: #151516;
+      --line: #262628;
+      --text: #fafafa;
+      --muted: #9a9aa0;
+      --accent: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 720px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 12px 36px rgba(0,0,0,.35);
+    }
+    .brand {
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 6px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+    p { margin: 0 0 14px; color: #cfcfd4; }
+    .row { display: flex; gap: 10px; margin: 16px 0 10px; flex-wrap: wrap; }
+    .btn {
+      appearance: none;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .06s ease, opacity .2s ease;
+      user-select: none;
+    }
+    .btn:active { transform: translateY(1px); }
+    .cta { background: var(--accent); color: #000; }
+    .secondary { background: #242426; color: var(--text); border: 1px solid var(--line); }
+    .muted { font-size: 13px; color: var(--muted); }
+    .divider { height: 1px; background: var(--line); margin: 16px 0; border-radius: 1px; }
+    code {
+      background: #1b1b1d; border: 1px solid #2a2a2c; border-radius: 8px;
+      padding: 2px 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px; color: #d7d7dc;
+    }
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <p class="brand">Regular</p>
+    <h1>Open your invitation in Regular</h1>
+    <p>Sometimes iOS opens links in Safari instead of the app — that’s normal. Just tap the button below and we’ll take you straight to Regular to accept your invitation.</p>
+
+    <div class="row">
+      <a id="openApp" class="btn cta" href="#">Open in the app</a>
+      <a id="copyLink" class="btn secondary" href="#">Copy link</a>
+    </div>
+
+    <div class="divider"></div>
+    <p class="muted">If you don’t have Regular installed yet, install it from the App Store and come back to this page — the button above will take you directly to your invitation.</p>
+    <p class="muted">Tip: if someone shared this link in chat, it usually opens the app immediately. If you pasted it into Safari, use the button above.</p>
+    <p class="muted">Tech note: the button triggers a fresh Universal Link tap and keeps all your parameters (<code>?code=…</code> etc.).</p>
+  </main>
+
+  <script>
+    // Build a "fresh tap" URL that preserves all query params and adds a harmless marker (?ul=1)
+    function makeTapUrl() {
+      const url = new URL(window.location.href);
+      if (!url.searchParams.has('ul')) url.searchParams.set('ul', '1');
+      return url.toString();
+    }
+
+    const tapUrl = makeTapUrl();
+    const openBtn = document.getElementById('openApp');
+    const copyBtn = document.getElementById('copyLink');
+
+    // Set the button href to the Universal Link (same path + params)
+    openBtn.href = tapUrl;
+
+    // Copy link helper
+    copyBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      try {
+        await navigator.clipboard.writeText(tapUrl);
+        copyBtn.textContent = 'Link copied';
+        setTimeout(() => (copyBtn.textContent = 'Copy link'), 1500);
+      } catch {
+        window.prompt('Copy this link:', tapUrl);
+      }
+    });
+  </script>
+</body>
+</html>

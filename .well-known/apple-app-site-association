@@ -2,7 +2,7 @@
   "applinks": {
       "details": [
            {
-             "appIDs": ["8542Q743H9.sex.regular"],
+             "appIDs": ["8542Q743H9.sex.regular.app"],
              "paths": [
                 "/api/*"
              ]
@@ -10,11 +10,11 @@
        ]
    },
    "webcredentials": {
-      "apps": [ "ABCDE12345.com.example.app" ]
+      "apps": [ "8542Q743H9.sex.regular.app" ]
    },
 
 
     "appclips": {
-        "apps": ["8542Q743H9.sex.regular.AppClip"]
+        "apps": ["8542Q743H9.sex.regular.app.AppClip"]
     }
 }
